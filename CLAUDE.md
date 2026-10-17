@@ -55,9 +55,9 @@ riostak/
 │   ├── Footer.tsx              # Global site footer
 │   └── landingPage/            # Section-specific components for the landing page
 │       ├── Hero.tsx
-│       ├── Section1.tsx
-│       ├── Section2.tsx
-│       ├── Section3.tsx
+│       ├── About.tsx
+│       ├── Audience.tsx
+│       ├── Framework.tsx
 │       └── ...
 ├── docs/                       # Architectural and component documentation (mirrors code)
 │   ├── app/
@@ -68,9 +68,9 @@ riostak/
 │   └── components/
 │       └── landingPage/
 │           ├── Hero.md
-│           ├── Section1.md
-│           ├── Section2.md
-│           ├── Section3.md
+│           ├── About.md
+│           ├── Audience.md
+│           ├── Framework.md
 │           └── ...
 ├── public/                     # Static assets (images, icons, fonts)
 └── utils/                      # Shared helper functions, validators, and constants
