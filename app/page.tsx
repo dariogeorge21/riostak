@@ -1,12 +1,12 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/landingPage/Hero";
-import Section1 from "@/components/landingPage/Section1";
-import Section2 from "@/components/landingPage/Section2";
-import Section3 from "@/components/landingPage/Section3";
-import Section4 from "@/components/landingPage/Section4";
-import Section5 from "@/components/landingPage/Section5";
-import Section6 from "@/components/landingPage/Section6";
+import About from "@/components/landingPage/About";
+import Audience from "@/components/landingPage/Audience";
+import Framework from "@/components/landingPage/Framework";
+import Initiatives from "@/components/landingPage/Initiatives";
+import Impact from "@/components/landingPage/Impact";
+import Contact from "@/components/landingPage/Contact";
 
 export default function Home() {
   return (
@@ -14,12 +14,12 @@ export default function Home() {
       <Header />
       <main className="w-full bg-cream pt-20 text-primary">
         <Hero />
-        <Section1 />
-        <Section2 />
-        <Section3 />
-        <Section4 />
-        <Section5 />
-        <Section6 />
+        <About />
+        <Audience />
+        <Framework />
+        <Initiatives />
+        <Impact />
+        <Contact />
       </main>
       <Footer />
     </>
