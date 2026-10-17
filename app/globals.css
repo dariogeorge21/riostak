@@ -150,3 +150,11 @@
     }
   }
 }
+
+@utility max-w-9xl {
+  max-width: 96rem;
+}
+
+@utility max-w-screen-9xl {
+  max-width: 96rem;
+}
