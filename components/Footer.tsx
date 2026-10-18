@@ -116,7 +116,7 @@ export default function Footer() {
           </p>
           <Link
             className="inline-flex min-h-11 items-center font-display text-label-xs uppercase text-on-surface-variant transition-colors hover:text-primary"
-            href="/#contact"
+            href="/contact"
           >
             Contact
           </Link>
