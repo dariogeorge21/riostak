@@ -236,7 +236,7 @@ export default function ContactForm() {
             id="email"
             name="email"
             onChange={(e) => setValues({ ...values, email: e.target.value })}
-            placeholder="e.vance@cambridge.ac.uk"
+            placeholder="e.vance@riostak.org"
             type="email"
             value={values.email}
           />

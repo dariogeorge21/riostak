@@ -42,7 +42,7 @@ export default function Footer() {
               </p>
             </div>
             <p className="font-display text-label-xs uppercase text-on-surface-variant">
-              EST. 2026 // CAMBRIDGE &amp; GLOBAL
+              EST. 2026 // OFFICE 1 • OFFICE 2 • OFFICE 3
             </p>
           </div>
 

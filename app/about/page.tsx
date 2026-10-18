@@ -21,7 +21,7 @@ const ABOUT_PREVIEWS = [
     label: "Faculty & Fellows",
     title: "Global Cohorts",
     description:
-      "Directory of interdisciplinary fellows across Cambridge, Zurich, and Singapore.",
+      "Directory of interdisciplinary fellows across OFFICE 1, OFFICE 2, and OFFICE 3.",
   },
   {
     index: "01.03",
@@ -140,7 +140,7 @@ export default function AboutPage() {
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs uppercase tracking-wider">
-                  Cambridge • Zurich • Singapore
+                  OFFICE 1 • OFFICE 2 • OFFICE 3
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs font-bold uppercase tracking-wider text-primary">

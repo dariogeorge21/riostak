@@ -21,7 +21,7 @@ const BLOG_PREVIEWS = [
     label: "Fellowship Essays",
     title: "Global Laboratory Field Notes",
     description:
-      "Direct reflections and trial notes from visiting scholars across our Cambridge, Zürich, and Singapore desks.",
+      "Direct reflections and trial notes from visiting scholars across our OFFICE 1, OFFICE 2, and OFFICE 3 desks.",
   },
   {
     index: "01.03",
@@ -140,7 +140,7 @@ export default function BlogsPage() {
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs uppercase tracking-wider">
-                  Cambridge • Zürich • Singapore
+                  OFFICE 1 • OFFICE 2 • OFFICE 3
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs font-bold uppercase tracking-wider text-primary">

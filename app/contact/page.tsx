@@ -11,31 +11,28 @@ export const metadata: Metadata = {
 
 const SECRETARIAT_HUBS = [
   {
-    city: "Cambridge",
-    country: "United States",
-    code: "BOS // UTC-5",
-    address: "77 Massachusetts Avenue, Cambridge, MA 02138",
-    email: "cambridge@riostak.org",
-    phone: "+1 (617) 555-0192",
+    office: "OFFICE 1",
+    code: "HUB 01",
+    address: "OFFICE 1",
+    email: "office1@riostak.org",
+    phone: "+1 (555) 010-0101",
     focus: "Cognitive Epistemology & Fellowship Board",
   },
   {
-    city: "Zürich",
-    country: "Switzerland",
-    code: "ZRH // UTC+1",
-    address: "Rämistrasse 101, 8092 Zürich, Switzerland",
-    email: "zurich@riostak.org",
-    phone: "+41 44 632 11 11",
+    office: "OFFICE 2",
+    code: "HUB 02",
+    address: "OFFICE 2",
+    email: "office2@riostak.org",
+    phone: "+1 (555) 010-0102",
     focus: "Neuro-Phenomenology & Quantitative Laboratory",
   },
   {
-    city: "Singapore",
-    country: "Singapore",
-    code: "SIN // UTC+8",
-    address: "10 Bayfront Avenue, Marina Bay, Singapore 018956",
-    email: "singapore@riostak.org",
-    phone: "+65 6688 8868",
-    focus: "Pacific Research Cohorts & Civic Practice",
+    office: "OFFICE 3",
+    code: "HUB 03",
+    address: "OFFICE 3",
+    email: "office3@riostak.org",
+    phone: "+1 (555) 010-0103",
+    focus: "Research Cohorts & Civic Practice",
   },
 ] as const;
 
@@ -103,8 +100,8 @@ export default function ContactPage() {
               </p>
 
               <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">
-                RIOSTAK maintains active administrative liaisons across Cambridge, Zürich, and
-                Singapore. Every academic and collaborative proposal is reviewed directly by our
+                RIOSTAK maintains active administrative liaisons across OFFICE 1, OFFICE 2, and
+                OFFICE 3. Every academic and collaborative proposal is reviewed directly by our
                 Secretariat under institutional non-disclosure standards.
               </p>
             </div>
@@ -121,10 +118,10 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="font-display text-label-xs uppercase tracking-wider text-on-surface-variant">
-                  Global Secretariats
+                  Secretariat Desks
                 </p>
                 <p className="mt-1 font-display text-title-md font-bold text-primary">
-                  3 Continents
+                  3 Offices
                 </p>
               </div>
               <div>
@@ -170,16 +167,16 @@ export default function ContactPage() {
                     02 // Secretariat Directory
                   </p>
                   <h3 className="mt-1 font-display text-headline-sm uppercase text-primary">
-                    Global Research Hubs
+                    Research Hubs
                   </h3>
                 </div>
 
                 <div className="flex flex-col divide-y divide-primary/10">
                   {SECRETARIAT_HUBS.map((hub) => (
-                    <div key={hub.city} className="py-space-md first:pt-0 last:pb-0">
+                    <div key={hub.office} className="py-space-md first:pt-0 last:pb-0">
                       <div className="flex items-center justify-between">
                         <h4 className="font-display text-title-sm font-semibold uppercase text-primary">
-                          {hub.city}, {hub.country}
+                          {hub.office}
                         </h4>
                         <span className="font-mono text-[10px] text-on-surface-variant">
                           {hub.code}
@@ -244,7 +241,7 @@ export default function ContactPage() {
                     </span>
                     <span>
                       <strong className="text-primary">Emergency Academic Contact:</strong> Visiting
-                      chairs requiring immediate travel verification may use the direct Cambridge
+                      chairs requiring immediate travel verification may use the direct OFFICE 1
                       telephone dispatch.
                     </span>
                   </li>
@@ -310,15 +307,15 @@ export default function ContactPage() {
               </p>
               <div className="hidden items-center gap-space-xl text-on-surface-variant md:flex lg:gap-space-2xl">
                 <span className="font-display text-label-xs uppercase tracking-wider">
-                  Cambridge 42.3736° N, 71.1097° W
+                  OFFICE 1
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs uppercase tracking-wider">
-                  Zürich 47.3769° N, 8.5417° E
+                  OFFICE 2
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs uppercase tracking-wider">
-                  Singapore 1.3521° N, 103.8198° E
+                  OFFICE 3
                 </span>
                 <span aria-hidden="true" className="h-1 w-1 rounded-full bg-secondary" />
                 <span className="font-display text-label-xs font-bold uppercase tracking-wider text-primary">
