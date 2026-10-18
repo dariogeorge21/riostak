@@ -36,7 +36,7 @@ const AUDIENCES = [
 export default function Audience() {
   return (
     <section
-      className="mx-auto w-full max-w-7xl px-margin py-space-3xl lg:px-margin-desktop"
+      className="mx-auto w-full max-w-screen-2xl px-margin py-space-3xl lg:px-margin-desktop"
       id="audience"
     >
       <div className="mb-space-2xl flex flex-col justify-between md:flex-row md:items-end">
