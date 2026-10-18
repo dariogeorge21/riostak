@@ -80,12 +80,6 @@ export default function Framework() {
                 <span className="font-display text-label-xs uppercase tracking-widest text-on-surface-variant">
                   {pillar.tag}
                 </span>
-                <span
-                  aria-hidden="true"
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-on-primary"
-                >
-                  <ArrowForwardIcon className="h-4 w-4" />
-                </span>
               </div>
             </li>
           ))}

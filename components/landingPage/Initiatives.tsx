@@ -124,12 +124,6 @@ export default function Initiatives() {
               <span className="font-display text-label-xs font-bold uppercase tracking-[0.2em] text-primary transition-colors group-hover:text-secondary">
                 {offering.cta}
               </span>
-              <span
-                aria-hidden="true"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-on-primary transition-transform group-hover:translate-x-1 group-hover:bg-secondary group-hover:text-on-secondary"
-              >
-                <ArrowForwardIcon className="h-4 w-4" />
-              </span>
             </Link>
           </div>
 
