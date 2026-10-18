@@ -11,4 +11,4 @@ Displays a stylish, minimalist, high-typography "Blogs & Despatches — Coming S
   - `01.02 // Fellowship Essays`: Global Laboratory Field Notes
   - `01.03 // Monograph Series`: Post-Industrial Pedagogy
 - **Edge-to-Edge Baseline Ticker**: Full-width baseline bar with editorial peer review status and global desk stamps.
-- **Layout Shell**: Full layout including global `Header` and `Footer`.
+- **Layout Shell**: Wrapped by the global `Header` and `Footer` in `app/layout.tsx`.

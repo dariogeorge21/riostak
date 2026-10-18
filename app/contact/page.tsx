@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { ArrowDownwardIcon } from "@/components/Icons";
 import ContactForm from "@/components/contact/ContactForm";
 
@@ -67,9 +65,7 @@ const INQUIRY_FAQS = [
 
 export default function ContactPage() {
   return (
-    <>
-      <Header />
-      <main className="flex min-h-screen w-full flex-col justify-between bg-cream pt-20 text-primary">
+    <main className="flex min-h-screen w-full flex-col justify-between bg-cream pt-20 text-primary">
         {/* Main Content Area */}
         <div className="mx-auto flex w-full max-w-screen-2xl flex-1 flex-col justify-center px-margin py-space-2xl lg:px-margin-desktop lg:py-space-3xl">
           {/* Header Status & Classification Bar */}
@@ -333,7 +329,5 @@ export default function ContactPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
   );
 }

@@ -8,4 +8,4 @@ Displays a minimalist, high-typography "Portfolio Page — Coming Soon" announce
 - Primary CTA to return home (`/`) and secondary CTA to explore working papers (`/#research`).
 - Three architectural preview cards detailing upcoming folio collections (`Longitudinal Indices`, `Post-Industrial Curricula`, `Diagnostic Manuals`).
 - Edge-to-edge baseline ticker with jurisdiction metadata stamps.
-- Full layout shell including `Header` and `Footer`.
+- Wrapped by the global `Header` and `Footer` in `app/layout.tsx`.

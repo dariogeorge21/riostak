@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Hero from "@/components/landingPage/Hero";
 import About from "@/components/landingPage/About";
 import Audience from "@/components/landingPage/Audience";
@@ -10,18 +8,14 @@ import Contact from "@/components/landingPage/Contact";
 
 export default function Home() {
   return (
-    <>
-      <Header />
-      <main className="w-full bg-cream pt-20 text-primary">
-        <Hero />
-        <About />
-        <Audience />
-        <Framework />
-        <Initiatives />
-        <Impact />
-        <Contact />
-      </main>
-      <Footer />
-    </>
+    <main className="w-full bg-cream pt-20 text-primary">
+      <Hero />
+      <About />
+      <Audience />
+      <Framework />
+      <Initiatives />
+      <Impact />
+      <Contact />
+    </main>
   );
 }

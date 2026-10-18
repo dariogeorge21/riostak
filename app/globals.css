@@ -113,8 +113,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+
+  [id] {
     /* Keeps anchor targets clear of the fixed 5rem header. */
-    scroll-padding-top: 5rem;
+    scroll-margin-top: 5rem;
   }
 
   body {

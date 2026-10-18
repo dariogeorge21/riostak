@@ -9,4 +9,4 @@ Displays a dedicated, Dribbble & Awwwards-inspired institutional contact and eng
   - Right column (5 cols): Global Research Hub directory (Cambridge MA, Zürich Switzerland, Singapore) with addresses, emails, phone numbers, and timezones, accompanied by official review protocol cards.
 - **Editorial Clarifications Grid**: 3-card FAQ covering Visiting Chairs & Fellowships, Curricular Licensing, and Pre-publication Monograph Embargoes.
 - **Edge-to-Edge Baseline Ticker**: Full-width baseline bar with geographical coordinate stamps and 2026 status mark.
-- **Layout Shell**: Integrates global `Header` and `Footer`.
+- **Layout Shell**: Wrapped by the global `Header` and `Footer` in `app/layout.tsx`.
