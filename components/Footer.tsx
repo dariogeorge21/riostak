@@ -31,7 +31,7 @@ const FOOTER_COLUMNS: readonly FooterColumn[] = [
 export default function Footer() {
   return (
     <footer className="w-full bg-cream text-on-surface">
-      <div className="mx-auto max-w-7xl px-margin pb-space-2xl pt-space-3xl lg:px-margin-desktop">
+      <div className="mx-auto max-w-screen-2xl px-margin pb-space-2xl pt-space-3xl lg:px-margin-desktop">
         <div className="grid grid-cols-1 gap-gutter-desktop lg:grid-cols-12">
           <div className="flex flex-col justify-between gap-space-md lg:col-span-4">
             <div>

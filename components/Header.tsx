@@ -3,21 +3,28 @@ import { SITE_NAV_LINKS } from "@/utils/navigation";
 import MobileNav from "./MobileNav";
 import Wordmark from "./Wordmark";
 
+const navLinks = [
+  { href: "/about", label: "About" },
+  { href: "/courses", label: "Courses" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/blogs", label: "Blogs" },
+  { href: "/contact", label: "Contact" },
+];
+
 /** Fixed global navigation bar. */
 export default function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-cream/95 backdrop-blur-md">
-      <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-margin lg:px-margin-desktop">
+      <div className="relative mx-auto flex h-20 max-w-9xl items-center justify-between px-margin lg:px-margin-desktop">
         <Wordmark />
 
         <nav aria-label="Primary" className="hidden items-center gap-space-lg md:flex">
-          {SITE_NAV_LINKS.map((link, index) => (
+          {navLinks.map((link, index) => (
             <Link
               key={link.href}
               aria-current={index === 0 ? "page" : undefined}
-              className={`font-display text-label-md uppercase transition-colors hover:text-navy ${
-                index === 0 ? "font-semibold text-navy" : "text-on-surface-variant"
-              }`}
+              className={`font-display text-label-md uppercase transition-colors hover:text-navy ${index === 0 ? "font-semibold text-navy" : "text-on-surface-variant"
+                }`}
               href={link.href}
             >
               {link.label}
