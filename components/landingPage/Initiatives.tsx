@@ -80,7 +80,7 @@ export default function Initiatives() {
   return (
     <section
       aria-labelledby="initiatives-heading"
-      className="mx-auto flex w-full max-w-7xl flex-col gap-space-3xl px-margin py-space-3xl lg:px-margin-desktop"
+      className="mx-auto flex w-full max-w-screen-2xl flex-col gap-space-3xl px-margin py-space-3xl lg:px-margin-desktop"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-space-xs">
@@ -104,9 +104,8 @@ export default function Initiatives() {
           id={offering.id}
         >
           <div
-            className={`lg:col-span-5 ${
-              offering.imageOnRight ? "order-2 lg:order-1" : "order-2"
-            }`}
+            className={`lg:col-span-5 ${offering.imageOnRight ? "order-2 lg:order-1" : "order-2"
+              }`}
           >
             <p className="mb-space-xs block font-display text-label-lg font-bold tracking-widest text-primary">
               {offering.index}
@@ -135,16 +134,15 @@ export default function Initiatives() {
           </div>
 
           <div
-            className={`lg:col-span-7 ${
-              offering.imageOnRight ? "order-1 lg:order-2" : "order-1"
-            }`}
+            className={`lg:col-span-7 ${offering.imageOnRight ? "order-1 lg:order-2" : "order-1"
+              }`}
           >
             <div className={`relative aspect-[16/10] w-full p-4 ${offering.frameClassName}`}>
               <div
                 aria-hidden="true"
                 className={`absolute -z-10 hidden sm:block ${offering.accentClassName}`}
               />
-              <div className="relative h-full w-full">
+              <div className="relative h-full w-full overflow-hidden">
                 <Image
                   alt={offering.imageAlt}
                   className={`object-cover object-center ${offering.imageClassName}`}
@@ -154,7 +152,7 @@ export default function Initiatives() {
                 />
               </div>
               <p
-                className={`absolute bg-cream px-space-md py-1 font-display text-label-xs uppercase tracking-widest text-primary ${offering.captionClassName}`}
+                className={`absolute z-30 bg-cream px-space-md py-1 font-display text-label-xs uppercase tracking-widest text-primary ${offering.captionClassName}`}
               >
                 {offering.caption}
               </p>
