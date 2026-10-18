@@ -4,6 +4,7 @@ import MobileNav from "./MobileNav";
 import Wordmark from "./Wordmark";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/courses", label: "Courses" },
   { href: "/portfolio", label: "Portfolio" },
@@ -21,6 +22,7 @@ export default function Header() {
         <nav aria-label="Primary" className="hidden items-center gap-space-lg md:flex">
           {navLinks.map((link, index) => (
             <Link
+            
               key={link.href}
               aria-current={index === 0 ? "page" : undefined}
               className={`font-display text-label-md uppercase transition-colors hover:text-navy ${index === 0 ? "font-semibold text-navy" : "text-on-surface-variant"
