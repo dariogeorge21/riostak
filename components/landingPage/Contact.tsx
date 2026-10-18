@@ -11,7 +11,7 @@ const ADMISSIONS = [
 export default function Contact() {
   return (
     <section className="w-full bg-navy py-space-3xl text-cream" id="contact">
-      <div className="mx-auto max-w-7xl px-margin lg:px-margin-desktop">
+      <div className="mx-auto max-w-screen-2xl px-margin lg:px-margin-desktop">
         <div className="grid grid-cols-1 items-center gap-gutter-desktop lg:grid-cols-12">
           <div className="lg:col-span-8">
             <div className="mb-space-sm flex items-center gap-space-xs">
