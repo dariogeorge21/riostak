@@ -32,7 +32,7 @@ const METRICS = [
 export default function Impact() {
   return (
     <section className="w-full bg-surface-container py-space-3xl" id="impact">
-      <div className="mx-auto max-w-7xl px-margin lg:px-margin-desktop">
+      <div className="mx-auto max-w-screen-2xl px-margin lg:px-margin-desktop">
         <div className="mb-space-2xl flex items-center justify-between">
           <div>
             <p className="mb-space-xs font-display text-label-xs font-bold uppercase tracking-[0.25em] text-secondary">
