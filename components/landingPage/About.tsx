@@ -29,7 +29,7 @@ const PRINCIPLES = [
 export default function About() {
   return (
     <section className="w-full bg-surface-container-low py-space-3xl" id="about">
-      <div className="mx-auto max-w-7xl px-margin lg:px-margin-desktop">
+      <div className="mx-auto max-w-screen-2xl px-margin lg:px-margin-desktop">
         <div className="flex items-center justify-between pb-space-lg">
           <div className="flex items-center gap-space-xs">
             <span aria-hidden="true" className="h-2 w-2 rounded-full bg-secondary" />
@@ -69,7 +69,7 @@ export default function About() {
           </div>
 
           <div className="relative lg:col-span-6">
-            <div className="relative aspect-[4/3] w-full bg-secondary-container">
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-secondary-container">
               <div
                 aria-hidden="true"
                 className="absolute -left-4 -top-4 -z-10 hidden h-full w-full bg-primary-container sm:block"
@@ -81,7 +81,7 @@ export default function About() {
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 src="/images/about-symposium.jpg"
               />
-              <p className="absolute bottom-4 left-4 bg-primary px-space-md py-space-xs font-display text-label-xs uppercase tracking-widest text-on-primary">
+              <p className="absolute bottom-4 left-4 z-30 bg-primary px-space-md py-space-xs font-display text-label-xs uppercase tracking-widest text-on-primary">
                 Field Laboratory // Cohort VI
               </p>
             </div>
