@@ -43,7 +43,7 @@ const PILLARS = [
 export default function Framework() {
   return (
     <section className="w-full bg-cream-deep py-space-3xl" id="framework">
-      <div className="mx-auto max-w-7xl px-margin lg:px-margin-desktop">
+      <div className="mx-auto max-w-screen-2xl px-margin lg:px-margin-desktop">
         <div className="mb-space-2xl flex flex-col justify-between md:flex-row md:items-baseline">
           <div>
             <p className="mb-space-xs font-display text-label-xs font-bold uppercase tracking-[0.25em] text-secondary">
