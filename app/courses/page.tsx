@@ -8,7 +8,7 @@ import CourseQuoteSection, {
 export const metadata: Metadata = {
   title: "Courses — RIOSTAK | Curricula, Research & Educational Guidance",
   description:
-    "Explore RIOSTAK's core academic offerings: Courses and Learning Resources, Research & Insights, and Educational Content & Guidance, with instant inline quote requests.",
+    "Explore RIOSTAK's core academic offerings: Courses and Learning Resources, Research & Insights, and Educational Content & Guidance, with open video lectures available to watch now.",
 };
 
 const COURSES: readonly CourseOffering[] = [
