@@ -28,7 +28,7 @@ const METRICS = [
   },
 ] as const;
 
-/** Section 05: Collective impact metrics and institutional quote. */
+/** Section 06: Collective impact metrics and institutional quote. */
 export default function Impact() {
   return (
     <section className="w-full bg-surface-container py-space-3xl" id="impact">
@@ -36,7 +36,7 @@ export default function Impact() {
         <div className="mb-space-2xl flex items-center justify-between">
           <div>
             <p className="mb-space-xs font-display text-label-xs font-bold uppercase tracking-[0.25em] text-secondary">
-              05 // Empirical Proof
+              06 // Empirical Proof
             </p>
             <h2 className="font-display text-headline-lg-mobile uppercase text-primary md:text-headline-lg">
               Our Collective Impact
