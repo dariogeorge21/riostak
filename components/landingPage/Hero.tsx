@@ -5,7 +5,7 @@ import { ArrowDownwardIcon, ArrowForwardIcon } from "../Icons";
 /** Landing page hero: an editorial statement, portrait object, and focused entry points. */
 export default function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-primary text-cream">
+    <section className="relative isolate overflow-hidden bg-primary pt-20 text-cream" id="hero">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-40 top-24 h-[28rem] w-[28rem] rounded-full bg-secondary-container/10 blur-3xl"

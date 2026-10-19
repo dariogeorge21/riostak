@@ -8,6 +8,7 @@ import { ArrowForwardIcon } from "./Icons";
 
 type MobileNavProps = {
   links: readonly NavLink[];
+  isDark?: boolean;
 };
 
 /**
@@ -15,7 +16,7 @@ type MobileNavProps = {
  * functionalities to `DesktopNav` (numbered pill items, active-route indicator,
  * office telemetry stamp, and `Start Learning` CTA).
  */
-export default function MobileNav({ links }: MobileNavProps) {
+export default function MobileNav({ links, isDark = false }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
@@ -43,8 +44,12 @@ export default function MobileNav({ links }: MobileNavProps) {
         aria-label={isOpen ? "Close menu" : "Open menu"}
         className={`flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-200 ${
           isOpen
-            ? "border-primary bg-primary text-cream shadow-xs"
-            : "border-primary/15 bg-surface-container-lowest/90 text-primary hover:border-primary/40 hover:bg-cream-deep"
+            ? isDark
+              ? "border-cream bg-cream text-primary shadow-xs"
+              : "border-primary bg-primary text-cream shadow-xs"
+            : isDark
+              ? "border-cream/20 bg-primary-container/80 text-cream hover:border-cream/40 hover:bg-primary-container"
+              : "border-primary/15 bg-surface-container-lowest/90 text-primary hover:border-primary/40 hover:bg-cream-deep"
         }`}
         onClick={() => setIsOpen((prev) => !prev)}
         type="button"
@@ -69,7 +74,11 @@ export default function MobileNav({ links }: MobileNavProps) {
       {isOpen && (
         <nav
           aria-label="Mobile"
-          className="fixed inset-x-0 top-20 z-50 border-y border-primary/15 bg-cream/98 px-3 py-space-md shadow-xl backdrop-blur-xl sm:px-5"
+          className={`fixed inset-x-0 top-20 z-50 border-y px-3 py-space-md shadow-xl backdrop-blur-xl transition-colors duration-300 sm:px-5 ${
+            isDark
+              ? "border-cream/15 bg-primary/98 text-cream"
+              : "border-primary/15 bg-cream/98 text-primary"
+          }`}
           id="mobile-navigation"
         >
           <div className="w-full">
@@ -87,8 +96,12 @@ export default function MobileNav({ links }: MobileNavProps) {
                       aria-current={isActive ? "page" : undefined}
                       className={`group flex min-h-12 items-center justify-between rounded-full px-4 py-2 font-display text-label-md uppercase tracking-[0.14em] transition-all duration-200 ${
                         isActive
-                          ? "bg-primary font-semibold text-cream shadow-xs"
-                          : "bg-surface-container-lowest/80 text-on-surface-variant hover:bg-cream-deep hover:text-primary"
+                          ? isDark
+                            ? "bg-cream font-semibold text-primary shadow-xs"
+                            : "bg-primary font-semibold text-cream shadow-xs"
+                          : isDark
+                            ? "bg-primary-container/60 text-cream/80 hover:bg-primary-container hover:text-cream"
+                            : "bg-surface-container-lowest/80 text-on-surface-variant hover:bg-cream-deep hover:text-primary"
                       }`}
                       href={link.href}
                       onClick={() => setIsOpen(false)}
@@ -97,7 +110,13 @@ export default function MobileNav({ links }: MobileNavProps) {
                         <span
                           aria-hidden="true"
                           className={`font-mono text-[11px] tracking-normal ${
-                            isActive ? "text-gold" : "text-secondary"
+                            isActive
+                              ? isDark
+                                ? "text-secondary"
+                                : "text-gold"
+                              : isDark
+                                ? "text-secondary-container"
+                                : "text-secondary"
                           }`}
                         >
                           {link.index}
@@ -106,7 +125,9 @@ export default function MobileNav({ links }: MobileNavProps) {
                         {isActive ? (
                           <span
                             aria-hidden="true"
-                            className="h-1.5 w-1.5 rounded-full bg-gold"
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              isDark ? "bg-secondary" : "bg-gold"
+                            }`}
                           />
                         ) : null}
                       </span>
@@ -114,8 +135,12 @@ export default function MobileNav({ links }: MobileNavProps) {
                         aria-hidden="true"
                         className={`flex h-7 w-7 items-center justify-center rounded-full transition-all ${
                           isActive
-                            ? "bg-gold text-primary"
-                            : "bg-primary/5 text-primary group-hover:translate-x-0.5 group-hover:bg-primary group-hover:text-cream"
+                            ? isDark
+                              ? "bg-primary text-secondary-container"
+                              : "bg-gold text-primary"
+                            : isDark
+                              ? "bg-cream/10 text-cream group-hover:translate-x-0.5 group-hover:bg-cream group-hover:text-primary"
+                              : "bg-primary/5 text-primary group-hover:translate-x-0.5 group-hover:bg-primary group-hover:text-cream"
                         }`}
                       >
                         <ArrowForwardIcon className="h-3.5 w-3.5" />
@@ -127,16 +152,28 @@ export default function MobileNav({ links }: MobileNavProps) {
             </ul>
 
             {/* Primary Start Learning CTA matching Desktop */}
-            <div className="mt-space-sm flex items-center justify-between border-t border-primary/10 pt-space-md">
+            <div
+              className={`mt-space-sm flex items-center justify-between border-t pt-space-md ${
+                isDark ? "border-cream/15" : "border-primary/10"
+              }`}
+            >
               <Link
-                className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-primary py-1.5 pl-5 pr-2 font-display text-label-md font-semibold uppercase tracking-[0.14em] text-cream shadow-xs transition-all duration-200 hover:bg-secondary hover:text-on-secondary"
+                className={`group inline-flex min-h-11 items-center gap-2 rounded-full py-1.5 pl-5 pr-2 font-display text-label-md font-semibold uppercase tracking-[0.14em] shadow-xs transition-all duration-200 ${
+                  isDark
+                    ? "bg-cream text-primary hover:bg-secondary-container hover:text-primary"
+                    : "bg-primary text-cream hover:bg-secondary hover:text-on-secondary"
+                }`}
                 href="/courses"
                 onClick={() => setIsOpen(false)}
               >
                 <span>Start Learning</span>
                 <span
                   aria-hidden="true"
-                  className="flex h-7 w-7 items-center justify-center rounded-full bg-gold text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:bg-cream"
+                  className={`flex h-7 w-7 items-center justify-center rounded-full transition-transform duration-200 group-hover:translate-x-0.5 ${
+                    isDark
+                      ? "bg-primary text-secondary-container group-hover:bg-primary group-hover:text-cream"
+                      : "bg-gold text-primary group-hover:bg-cream"
+                  }`}
                 >
                   <ArrowForwardIcon className="h-3.5 w-3.5" />
                 </span>

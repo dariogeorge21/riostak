@@ -8,7 +8,7 @@ import Contact from "@/components/landingPage/Contact";
 
 export default function Home() {
   return (
-    <main className="w-full bg-cream pt-20 text-primary">
+    <main className="w-full bg-cream text-primary">
       <Hero />
       <About />
       <Audience />
