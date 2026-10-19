@@ -16,6 +16,7 @@ This document outlines the architectural standards, code quality requirements, e
 8. [Comprehensive UI States](#8-comprehensive-ui-states)
 9. [Accessibility (WCAG 2.2 AA) Standards](#9-accessibility-wcag-22-aa-standards)
 10. [Verification & Quality Assurance](#10-verification--quality-assurance)
+11. [Supabase & Database Management](#11-supabase--database-management)
 
 ---
 
@@ -73,6 +74,9 @@ riostak/
 │           ├── Framework.md
 │           └── ...
 ├── public/                     # Static assets (images, icons, fonts)
+├── supabase/                   # Supabase database schemas and transactions
+│   ├── migrations/             # Incremental migration SQL files per feature/scrum
+│   └── schema.sql              # Complete source-of-truth database schema
 └── utils/                      # Shared helper functions, validators, and constants
 ```
 
@@ -242,3 +246,15 @@ The application must target **WCAG 2.2 Level AA** compliance across all views.
 - **No Unverified Claims:** Never report that code works or builds pass without executing tests or build commands.
 - **Transparent Failure Reporting:** If a command fails or a dependency error occurs, report the full context and error output immediately rather than concealing it.
 - **Clean Diff Discipline:** Ensure git commits and file modifications contain only intentional changes directly pertinent to the task. Keep codebases free of leftover debug logs, temporary test files, and commented-out dead code.
+
+---
+
+## 11. Supabase & Database Management
+
+For all Supabase-related transactions, schemas, and database modifications:
+
+- **Directory Structure:** Inside the `supabase/` directory, maintain:
+  - `migrations/` folder containing sequential migration SQL files.
+  - `schema.sql` file containing the complete, cumulative database schema.
+- **Feature & Scrum Migrations:** Every database or transaction change in a feature/scrum must be applied through a dedicated migration file inside `supabase/migrations/`.
+- **Single Source of Truth:** The full, up-to-date schema must always be maintained in `supabase/schema.sql` in tandem with every migration.
