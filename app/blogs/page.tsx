@@ -6,9 +6,9 @@ import BlogCatalogSection from "@/components/blogs/BlogCatalogSection";
 import { ArrowDownwardIcon, ArrowForwardIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
-  title: "Blogs & Despatches — RIOSTAK | Scholarly Inquiries & Field Notes",
+  title: "Blogs — RIOSTAK",
   description:
-    "Explore RIOSTAK's peer-reviewed monographs, empirical field notes, and contemplative essays from visiting fellows.",
+    "Explore RIOSTAK's peer-reviewed blogs, empirical field notes, and contemplative essays from visiting fellows.",
 };
 
 async function BlogList() {
@@ -39,7 +39,7 @@ export default function BlogsPage() {
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-secondary" />
             </span>
             <p className="font-display text-label-xs font-bold uppercase tracking-[0.2em] text-secondary">
-              Despatches // Volume 01 Open Access
+              Blogs // Volume 01 Open Access
             </p>
           </div>
           <p className="font-display text-label-xs uppercase tracking-widest text-on-surface-variant">
@@ -58,9 +58,7 @@ export default function BlogsPage() {
                 className="font-display text-headline-xl-mobile uppercase leading-[0.92] tracking-tight text-primary sm:text-headline-lg lg:text-headline-xl"
                 id="blogs-hero-heading"
               >
-                Inquiries &amp;
-                <br />
-                Field Notes
+                Blogs
               </h1>
 
               <p className="mt-space-xl max-w-2xl font-serif text-2xl font-light italic leading-snug text-primary lg:text-3xl">
@@ -70,7 +68,7 @@ export default function BlogsPage() {
 
               <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">
                 Every dispatch is published open-access under academic peer curation. Inspect the
-                monographs below and click <strong className="font-medium text-primary">Read Full Monograph</strong> to
+                blogs below and click <strong className="font-medium text-primary">Read Full Monograph</strong> to
                 expand the complete text directly inline.
               </p>
 
@@ -79,7 +77,7 @@ export default function BlogsPage() {
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-8 font-display text-label-md font-semibold uppercase tracking-wider text-cream shadow-sm transition-all duration-200 hover:bg-secondary hover:text-on-secondary active:scale-[0.98]"
                   href="#monograph-catalog"
                 >
-                  Explore Monographs
+                  Explore Blogs
                 </a>
                 <Link
                   className="group inline-flex min-h-12 items-center gap-space-xs rounded-full border border-primary/20 px-6 font-display text-label-md font-semibold uppercase tracking-wider text-primary transition-all duration-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98]"

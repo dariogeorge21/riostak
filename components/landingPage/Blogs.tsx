@@ -33,11 +33,11 @@ export default function Blogs({ blogs }: BlogsSectionProps) {
               className="font-display text-label-md uppercase tracking-[0.18em] text-primary"
               id="landing-blogs-heading"
             >
-              05 // Scholarly Monographs &amp; Field Notes
+              05 // Blogs
             </h2>
           </div>
           <p className="font-display text-headline-lg-mobile uppercase text-primary md:text-headline-lg">
-            Inquiries &amp; Despatches
+            Blogs
           </p>
           <p className="mt-space-xs max-w-2xl text-body-md text-on-surface-variant">
             Open-access treatises, laboratory dispatches, and contemplative inquiries published
@@ -50,7 +50,7 @@ export default function Blogs({ blogs }: BlogsSectionProps) {
             className="group inline-flex min-h-11 items-center gap-space-xs rounded-full border border-primary/20 px-5 font-display text-label-xs font-bold uppercase tracking-wider text-primary transition-all duration-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98]"
             href="/blogs"
           >
-            <span>Explore All Inquiries ({publishedBlogs.length})</span>
+            <span>Explore All Blogs ({publishedBlogs.length})</span>
             <ArrowForwardIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
