@@ -56,3 +56,22 @@ export function VerifiedIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+/** User profile / authentication icon for the global navbar login link. */
+export function UserAuthIcon({ className }: IconProps) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.85"
+      viewBox="0 0 24 24"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+    </svg>
+  );
+}

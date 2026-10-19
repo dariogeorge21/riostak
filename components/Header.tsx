@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SITE_NAV_LINKS } from "@/utils/navigation";
 import DesktopNav from "./DesktopNav";
-import { ArrowForwardIcon } from "./Icons";
+import { ArrowForwardIcon, UserAuthIcon } from "./Icons";
 import MobileNav from "./MobileNav";
 import Wordmark from "./Wordmark";
 
@@ -56,6 +56,7 @@ export default function Header() {
   }, [pathname]);
 
   const isHeroDark = pathname === "/" && !hasPassedHero;
+  const isAuthActive = pathname.startsWith("/login") || pathname.startsWith("/manage");
 
   return (
     <header
@@ -91,8 +92,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Right Corner: Nav Items + Start Learning CTA + Mobile Trigger */}
-        <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-3">
+        {/* Right Corner: Nav Items + Start Learning CTA + Auth Login Icon + Mobile Trigger */}
+        <div className="flex shrink-0 items-center justify-end gap-2 sm:gap-2.5">
           <DesktopNav isDark={isHeroDark} links={SITE_NAV_LINKS} />
 
           <div
@@ -121,6 +122,24 @@ export default function Header() {
             >
               <ArrowForwardIcon className="h-3.5 w-3.5" />
             </span>
+          </Link>
+
+          <Link
+            aria-current={isAuthActive ? "page" : undefined}
+            aria-label="Curator Login"
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-200 active:scale-[0.96] ${
+              isAuthActive
+                ? isHeroDark
+                  ? "border-gold bg-gold text-primary shadow-xs"
+                  : "border-primary bg-primary text-gold shadow-xs"
+                : isHeroDark
+                  ? "border-cream/20 bg-primary-container/80 text-cream hover:border-gold hover:bg-cream hover:text-primary"
+                  : "border-primary/15 bg-surface-container-lowest/90 text-primary hover:border-primary/40 hover:bg-primary hover:text-cream"
+            }`}
+            href="/login"
+            title="Curator Login"
+          >
+            <UserAuthIcon className="h-4 w-4" />
           </Link>
 
           <MobileNav isDark={isHeroDark} links={SITE_NAV_LINKS} />
