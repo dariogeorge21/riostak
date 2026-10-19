@@ -5,7 +5,7 @@ import { logoutAction } from "@/app/actions/authActions";
 import Wordmark from "@/components/Wordmark";
 import type { AdminUser } from "@/utils/auth";
 
-export type ManageTab = "blogs" | "courses";
+export type ManageTab = "blogs" | "courses" | "submissions";
 
 interface ManageSidebarProps {
   activeTab: ManageTab;
@@ -13,6 +13,7 @@ interface ManageSidebarProps {
   user: AdminUser;
   blogCount: number;
   courseCount: number;
+  submissionCount: number;
 }
 
 export default function ManageSidebar({
@@ -21,6 +22,7 @@ export default function ManageSidebar({
   user,
   blogCount,
   courseCount,
+  submissionCount,
 }: ManageSidebarProps) {
   return (
     <aside className="flex w-full flex-col justify-between border-b border-primary/10 bg-surface-container-low p-space-md sm:p-space-lg lg:w-72 lg:min-h-[calc(100vh-5rem)] lg:border-b-0 lg:border-r">
@@ -117,6 +119,47 @@ export default function ManageSidebar({
               }`}
             >
               {courseCount}
+            </span>
+          </button>
+
+          {/* Submissions Tab */}
+          <button
+            className={`group flex items-center justify-between rounded-xs px-3.5 py-3 text-left transition-all ${
+              activeTab === "submissions"
+                ? "bg-primary text-cream shadow-xs"
+                : "text-on-surface-variant hover:bg-cream hover:text-primary"
+            }`}
+            onClick={() => onSelectTab("submissions")}
+            type="button"
+          >
+            <div className="flex items-center gap-space-sm">
+              <svg
+                aria-hidden="true"
+                className={`h-4 w-4 ${
+                  activeTab === "submissions" ? "text-gold" : "text-on-surface-variant"
+                }`}
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <span className="font-display text-label-sm uppercase tracking-wider">
+                Submissions
+              </span>
+            </div>
+            <span
+              className={`rounded-full px-2 py-0.5 font-mono text-[11px] font-bold ${
+                activeTab === "submissions"
+                  ? "bg-cream/20 text-cream"
+                  : "bg-surface-container text-on-surface-variant"
+              }`}
+            >
+              {submissionCount}
             </span>
           </button>
         </nav>

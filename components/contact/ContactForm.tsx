@@ -1,17 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { submitContactFormAction } from "@/app/actions/contactActions";
+import { INQUIRY_TOPICS, type TopicId } from "@/utils/contactTypes";
 import { ArrowForwardIcon, VerifiedIcon } from "../Icons";
-
-const INQUIRY_TOPICS = [
-  { id: "fellowships", label: "Academic Fellowship", code: "01" },
-  { id: "research", label: "Research Collaboration", code: "02" },
-  { id: "curricula", label: "Curricula & Licensing", code: "03" },
-  { id: "press", label: "Press & Monographs", code: "04" },
-  { id: "general", label: "General Inquiry", code: "05" },
-] as const;
-
-type TopicId = (typeof INQUIRY_TOPICS)[number]["id"];
 
 type FormValues = {
   fullName: string;
@@ -33,6 +25,7 @@ export default function ContactForm() {
     message: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [serverError, setServerError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedData, setSubmittedData] = useState<{
     referenceId: string;
@@ -63,25 +56,30 @@ export default function ContactForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setServerError(null);
     if (!validate()) return;
 
     setIsSubmitting(true);
 
-    // Simulate verified academic dispatch
-    setTimeout(() => {
-      const topicObj = INQUIRY_TOPICS.find((t) => t.id === selectedTopic);
-      const generatedRef = `RIO-${new Date().getFullYear()}-${Math.floor(
-        1000 + Math.random() * 9000
-      )}`;
-
-      setSubmittedData({
-        referenceId: generatedRef,
-        topicLabel: topicObj?.label ?? "General Inquiry",
+    try {
+      const result = await submitContactFormAction({
+        topicId: selectedTopic,
+        fullName: values.fullName,
         email: values.email,
+        affiliation: values.affiliation,
+        role: values.role,
+        message: values.message,
       });
 
+      if (!result.success || !result.submission) {
+        setServerError(result.error || "Unable to transmit inquiry at this time.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      setSubmittedData(result.submission);
       setIsSubmitting(false);
       setValues({
         fullName: "",
@@ -91,7 +89,10 @@ export default function ContactForm() {
         message: "",
       });
       setErrors({});
-    }, 600);
+    } catch {
+      setServerError("Network error while transmitting inquiry. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   if (submittedData) {
@@ -318,6 +319,15 @@ export default function ContactForm() {
           </p>
         ) : null}
       </div>
+
+      {serverError ? (
+        <div
+          className="rounded-xs border border-red-500/30 bg-red-50 px-4 py-3 text-body-sm text-red-700"
+          role="alert"
+        >
+          {serverError}
+        </div>
+      ) : null}
 
       {/* Bottom Dispatch Trigger */}
       <div className="flex flex-col items-start justify-between gap-space-md border-t border-primary/10 pt-space-md sm:flex-row sm:items-center">

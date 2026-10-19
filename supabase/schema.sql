@@ -91,12 +91,43 @@ CREATE INDEX IF NOT EXISTS idx_courses_slug ON public.courses(slug);
 CREATE INDEX IF NOT EXISTS idx_courses_status_sort_order ON public.courses(status, sort_order ASC);
 CREATE INDEX IF NOT EXISTS idx_courses_index_code ON public.courses(index_code);
 
--- 6. ROW LEVEL SECURITY (RLS) POLICIES
+-- 6. CONTACT SUBMISSIONS TABLE (Institutional Inquiries from /contact)
+CREATE TABLE IF NOT EXISTS public.contact_submissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    reference_id VARCHAR(50) NOT NULL UNIQUE,
+    topic_id VARCHAR(50) NOT NULL DEFAULT 'general',
+    topic_label VARCHAR(100) NOT NULL DEFAULT 'General Inquiry',
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    affiliation VARCHAR(200) NOT NULL DEFAULT '',
+    role VARCHAR(150) NOT NULL DEFAULT '',
+    message TEXT NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'new',
+    admin_notes TEXT NOT NULL DEFAULT '',
+    reviewed_by UUID REFERENCES public.admin_users(id) ON DELETE SET NULL,
+    reviewed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_contact_submissions_status_created_at
+    ON public.contact_submissions(status, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_contact_submissions_topic_id
+    ON public.contact_submissions(topic_id);
+CREATE INDEX IF NOT EXISTS idx_contact_submissions_reference_id
+    ON public.contact_submissions(reference_id);
+CREATE INDEX IF NOT EXISTS idx_contact_submissions_reviewed_by
+    ON public.contact_submissions(reviewed_by);
+
+-- 7. ROW LEVEL SECURITY (RLS) POLICIES
 ALTER TABLE public.admin_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admin_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.blog_tags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.courses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.contact_submissions TO anon, authenticated, service_role;
 
 CREATE POLICY "Public can view published blogs"
 ON public.blogs
@@ -120,3 +151,28 @@ ON public.courses
 FOR SELECT
 TO anon, authenticated
 USING (status = 'published');
+
+CREATE POLICY "Public can insert contact submissions"
+ON public.contact_submissions
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+CREATE POLICY "Secretariat console can view contact submissions"
+ON public.contact_submissions
+FOR SELECT
+TO anon, authenticated
+USING (true);
+
+CREATE POLICY "Secretariat console can update contact submissions"
+ON public.contact_submissions
+FOR UPDATE
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
+
+CREATE POLICY "Secretariat console can delete contact submissions"
+ON public.contact_submissions
+FOR DELETE
+TO anon, authenticated
+USING (true);
