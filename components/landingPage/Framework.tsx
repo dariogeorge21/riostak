@@ -1,5 +1,3 @@
-import { ArrowForwardIcon } from "../Icons";
-
 const PILLARS = [
   {
     index: "01",
