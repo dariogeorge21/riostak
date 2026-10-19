@@ -56,8 +56,8 @@ export async function createBlogAction(formData: FormData): Promise<{ success: b
   const title = formData.get("title")?.toString().trim() || "";
   const index_code = formData.get("index_code")?.toString().trim() || "01.04";
   const label = formData.get("label")?.toString().trim() || "Editorial Dispatch";
-  const excerpt = formData.get("excerpt")?.toString().trim() || "";
-  const content = formData.get("content")?.toString().trim() || "";
+  const excerpt = (formData.get("excerpt")?.toString() || "").replace(/\r\n/g, "\n").trim();
+  const content = (formData.get("content")?.toString() || "").replace(/\r\n/g, "\n").trim();
   const author_name = formData.get("author_name")?.toString().trim() || "RIOSTAK Fellowship";
   const author_title = formData.get("author_title")?.toString().trim() || "Academic Secretariat";
   const reading_time = formData.get("reading_time")?.toString().trim() || "5 min read";
@@ -101,6 +101,7 @@ export async function createBlogAction(formData: FormData): Promise<{ success: b
 
   revalidatePath("/manage");
   revalidatePath("/blogs");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -117,8 +118,8 @@ export async function updateBlogAction(
   const title = formData.get("title")?.toString().trim() || "";
   const index_code = formData.get("index_code")?.toString().trim() || "";
   const label = formData.get("label")?.toString().trim() || "Editorial Dispatch";
-  const excerpt = formData.get("excerpt")?.toString().trim() || "";
-  const content = formData.get("content")?.toString().trim() || "";
+  const excerpt = (formData.get("excerpt")?.toString() || "").replace(/\r\n/g, "\n").trim();
+  const content = (formData.get("content")?.toString() || "").replace(/\r\n/g, "\n").trim();
   const author_name = formData.get("author_name")?.toString().trim() || "";
   const author_title = formData.get("author_title")?.toString().trim() || "";
   const reading_time = formData.get("reading_time")?.toString().trim() || "";
@@ -156,6 +157,7 @@ export async function updateBlogAction(
 
   revalidatePath("/manage");
   revalidatePath("/blogs");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -179,6 +181,7 @@ export async function deleteBlogAction(id: string): Promise<{ success: boolean; 
 
   revalidatePath("/manage");
   revalidatePath("/blogs");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -215,5 +218,6 @@ export async function toggleBlogStatusAction(
 
   revalidatePath("/manage");
   revalidatePath("/blogs");
+  revalidatePath("/");
   return { success: true };
 }

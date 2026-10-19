@@ -9,6 +9,8 @@ import {
   updateBlogAction,
 } from "@/app/actions/blogActions";
 import { ArrowForwardIcon } from "@/components/Icons";
+import { getMarkdownStats, normalizeMarkdown, stripInlineMarkdown } from "@/utils/markdown";
+import RichMarkdownEditor from "./RichMarkdownEditor";
 
 const BLOG_LABELS = [
   "Editorial Dispatches",
@@ -24,6 +26,8 @@ interface BlogManagerProps {
 export default function BlogManager({ initialBlogs }: BlogManagerProps) {
   const [blogs, setBlogs] = useState<BlogItem[]>(initialBlogs);
   const [isCreating, setIsCreating] = useState(false);
+  const [createKey, setCreateKey] = useState(0);
+  const [createReadingTime, setCreateReadingTime] = useState("5 min read");
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
   const [deletingBlogId, setDeletingBlogId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,21 +54,28 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
       const res = await createBlogAction(formData);
       if (res.success) {
         setIsCreating(false);
-        // Optimistic refresh
+        setCreateKey((prev) => prev + 1);
+        const rawContent = normalizeMarkdown(formData.get("content")?.toString() || "");
+        const computedTime = getMarkdownStats(rawContent).readingTime;
         const newBlog: BlogItem = {
           id: `temp-${Date.now()}`,
           title: formData.get("title")?.toString() || "",
           slug:
             formData.get("slug")?.toString() ||
-            formData.get("title")?.toString().toLowerCase().replace(/[^a-z0-9]+/g, "-") ||
+            formData
+              .get("title")
+              ?.toString()
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/(^-|-$)/g, "") ||
             "",
           index_code: formData.get("index_code")?.toString() || "01.04",
-          label: formData.get("label")?.toString() || "Editorial Dispatch",
+          label: formData.get("label")?.toString() || "Editorial Dispatches",
           excerpt: formData.get("excerpt")?.toString() || "",
-          content: formData.get("content")?.toString() || "",
+          content: rawContent,
           author_name: formData.get("author_name")?.toString() || "RIOSTAK Fellowship",
           author_title: formData.get("author_title")?.toString() || "Academic Secretariat",
-          reading_time: formData.get("reading_time")?.toString() || "5 min read",
+          reading_time: formData.get("reading_time")?.toString() || computedTime,
           status: (formData.get("status")?.toString() as "published" | "draft") || "published",
           published_at: new Date().toISOString(),
           created_at: new Date().toISOString(),
@@ -85,6 +96,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
       const res = await updateBlogAction(id, formData);
       if (res.success) {
         setEditingBlogId(null);
+        const rawContent = normalizeMarkdown(formData.get("content")?.toString() || "");
         setBlogs((prev) =>
           prev.map((b) =>
             b.id === id
@@ -94,7 +106,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                   index_code: formData.get("index_code")?.toString() || b.index_code,
                   label: formData.get("label")?.toString() || b.label,
                   excerpt: formData.get("excerpt")?.toString() || b.excerpt,
-                  content: formData.get("content")?.toString() || b.content,
+                  content: rawContent || b.content,
                   author_name: formData.get("author_name")?.toString() || b.author_name,
                   author_title: formData.get("author_title")?.toString() || b.author_title,
                   reading_time: formData.get("reading_time")?.toString() || b.reading_time,
@@ -147,7 +159,8 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
             </h1>
           </div>
           <p className="mt-1 text-body-sm text-on-surface-variant">
-            Manage peer-reviewed articles, scholarly working papers, and fellowship treatises.
+            Author, format, and preview peer-reviewed articles, working papers, and treatises with
+            full Markdown and rich-text paste support.
           </p>
         </div>
 
@@ -156,7 +169,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
           className={`inline-flex min-h-11 items-center justify-center gap-space-xs rounded-full px-6 font-display text-label-md font-semibold uppercase tracking-wider transition-all duration-200 active:scale-[0.98] ${
             isCreating
               ? "bg-secondary text-on-secondary"
-              : "bg-primary text-cream hover:bg-secondary hover:text-on-secondary shadow-sm"
+              : "bg-primary text-cream shadow-sm hover:bg-secondary hover:text-on-secondary"
           }`}
           onClick={() => {
             setIsCreating((prev) => !prev);
@@ -165,7 +178,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
           }}
           type="button"
         >
-          <span>{isCreating ? "Close Form" : "+ New Blog Monograph"}</span>
+          <span>{isCreating ? "Close Studio" : "+ New Blog Monograph"}</span>
         </button>
       </div>
 
@@ -177,7 +190,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
               key={status}
               className={`rounded-full px-3.5 py-1 font-display text-label-xs uppercase tracking-wider transition-colors ${
                 statusFilter === status
-                  ? "bg-primary text-cream font-bold"
+                  ? "bg-primary font-bold text-cream"
                   : "bg-surface-container text-on-surface-variant hover:bg-surface-variant hover:text-primary"
               }`}
               onClick={() => setStatusFilter(status)}
@@ -199,20 +212,20 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
         </div>
       </div>
 
-      {/* Hidden Inline Animated Creation Drawer (Top of list) */}
+      {/* Inline Animated Creation Studio Drawer */}
       <div
         aria-hidden={!isCreating}
         className={`grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isCreating
             ? "my-space-lg grid-rows-[1fr] opacity-100"
-            : "my-0 grid-rows-[0fr] opacity-0 pointer-events-none"
+            : "pointer-events-none my-0 grid-rows-[0fr] opacity-0"
         }`}
       >
         <div className="overflow-hidden">
           <div className="border-l-4 border-gold bg-surface-container-lowest p-space-lg shadow-lg ring-1 ring-primary/10 sm:p-space-xl">
             <div className="mb-space-md flex items-center justify-between border-b border-primary/10 pb-space-sm">
               <p className="font-display text-label-xs font-bold uppercase tracking-[0.2em] text-primary">
-                New Editorial Monograph // Formulation Console
+                New Editorial Monograph // Rich Authoring Studio
               </p>
               <button
                 className="font-display text-label-xs uppercase tracking-wider text-on-surface-variant hover:text-primary"
@@ -224,12 +237,12 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
             </div>
 
             {formError ? (
-              <p className="mb-space-md text-[13px] text-red-600 font-semibold">{formError}</p>
+              <p className="mb-space-md text-[13px] font-semibold text-red-600">{formError}</p>
             ) : null}
 
-            <form className="flex flex-col gap-space-md" onSubmit={handleCreateSubmit}>
+            <form key={createKey} className="flex flex-col gap-space-md" onSubmit={handleCreateSubmit}>
               <div className="grid grid-cols-1 gap-space-md sm:grid-cols-12">
-                <div className="sm:col-span-8 flex flex-col gap-1">
+                <div className="flex flex-col gap-1 sm:col-span-8">
                   <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                     Monograph Title *
                   </label>
@@ -242,7 +255,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                   />
                 </div>
 
-                <div className="sm:col-span-4 flex flex-col gap-1">
+                <div className="flex flex-col gap-1 sm:col-span-4">
                   <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                     Index Code *
                   </label>
@@ -256,7 +269,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-space-md sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-space-md sm:grid-cols-4">
                 <div className="flex flex-col gap-1">
                   <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                     Category Series
@@ -287,12 +300,25 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
 
                 <div className="flex flex-col gap-1">
                   <label className="font-display text-label-xs uppercase tracking-wider text-primary">
+                    Author Role / Chair
+                  </label>
+                  <input
+                    className="w-full rounded-xs border border-primary/20 bg-cream/20 px-3 py-2 text-body-sm focus:border-gold focus:bg-white focus:outline-none"
+                    defaultValue="Senior Fellow in Cognitive Neuroscience"
+                    name="author_title"
+                    type="text"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                     Reading Time
                   </label>
                   <input
                     className="w-full rounded-xs border border-primary/20 bg-cream/20 px-3 py-2 text-body-sm focus:border-gold focus:bg-white focus:outline-none"
-                    defaultValue="6 min read"
                     name="reading_time"
+                    onChange={(e) => setCreateReadingTime(e.target.value)}
+                    value={createReadingTime}
                     type="text"
                   />
                 </div>
@@ -300,27 +326,31 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
 
               <div className="flex flex-col gap-1">
                 <label className="font-display text-label-xs uppercase tracking-wider text-primary">
-                  Lead Excerpt (Summary) *
+                  Lead Excerpt (Summary Abstract) *
                 </label>
                 <textarea
                   className="w-full rounded-xs border border-primary/20 bg-cream/20 px-3 py-2 text-body-sm focus:border-gold focus:bg-white focus:outline-none"
                   name="excerpt"
-                  placeholder="Concise abstract or thesis summary..."
+                  placeholder="Concise abstract or thesis summary displayed on blog cards..."
                   required
                   rows={2}
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="font-display text-label-xs uppercase tracking-wider text-primary">
-                  Editorial Body Content (Markdown) *
-                </label>
-                <textarea
-                  className="w-full rounded-xs border border-primary/20 bg-cream/20 px-3 py-2 font-mono text-body-sm focus:border-gold focus:bg-white focus:outline-none"
+              <div className="flex flex-col gap-1.5">
+                <div className="flex flex-wrap items-center justify-between gap-1">
+                  <label className="font-display text-label-xs uppercase tracking-wider text-primary">
+                    Editorial Body Content (Rich Formatting &amp; Markdown Paste Supported) *
+                  </label>
+                  <span className="font-mono text-[10px] text-secondary">
+                    Supports Headings, Bold, Italic, Underline, Serif/Display Fonts, Lists, Quotes, Callouts &amp; Tables
+                  </span>
+                </div>
+                <RichMarkdownEditor
                   name="content"
-                  placeholder="## Abstract&#10;&#10;Long-form empirical inquiry..."
+                  onReadingTimeSuggestion={(rt) => setCreateReadingTime(rt)}
+                  placeholder={`## Abstract\n\nWrite or paste your monograph here. Use the toolbar above for **Bold**, *Italics*, <u>Underline</u>, [serif:Editorial Serif], headings, callouts, and lists...`}
                   required
-                  rows={6}
                 />
               </div>
 
@@ -392,7 +422,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                         </span>
                       </div>
                       <p className="mt-0.5 line-clamp-1 max-w-xl text-body-sm text-on-surface-variant">
-                        {blog.excerpt}
+                        {stripInlineMarkdown(blog.excerpt)}
                       </p>
                     </div>
                   </div>
@@ -466,20 +496,20 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                   </div>
                 ) : null}
 
-                {/* Hidden Inline Animated Edit Drawer (Directly below item) */}
+                {/* Inline Animated Edit Studio Drawer */}
                 <div
                   aria-hidden={!isEditing}
                   className={`grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     isEditing
                       ? "mt-space-md grid-rows-[1fr] opacity-100"
-                      : "mt-0 grid-rows-[0fr] opacity-0 pointer-events-none"
+                      : "pointer-events-none mt-0 grid-rows-[0fr] opacity-0"
                   }`}
                 >
                   <div className="overflow-hidden">
                     <div className="border-l-4 border-gold bg-surface-container-lowest p-space-md shadow-md ring-1 ring-primary/10 sm:p-space-lg">
                       <div className="mb-space-md flex items-center justify-between border-b border-primary/10 pb-space-sm">
                         <p className="font-display text-label-xs font-bold uppercase tracking-[0.2em] text-primary">
-                          Inline Editor // {blog.index_code} — {blog.title}
+                          Inline Studio // {blog.index_code} — {blog.title}
                         </p>
                         <button
                           className="font-display text-label-xs uppercase tracking-wider text-on-surface-variant hover:text-primary"
@@ -495,7 +525,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                         onSubmit={(e) => handleUpdateSubmit(blog.id, e)}
                       >
                         <div className="grid grid-cols-1 gap-space-md sm:grid-cols-12">
-                          <div className="sm:col-span-8 flex flex-col gap-1">
+                          <div className="flex flex-col gap-1 sm:col-span-8">
                             <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                               Monograph Title *
                             </label>
@@ -508,7 +538,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                             />
                           </div>
 
-                          <div className="sm:col-span-4 flex flex-col gap-1">
+                          <div className="flex flex-col gap-1 sm:col-span-4">
                             <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                               Index Code *
                             </label>
@@ -522,7 +552,7 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-space-md sm:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-space-md sm:grid-cols-4">
                           <div className="flex flex-col gap-1">
                             <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                               Category Series
@@ -554,6 +584,18 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
 
                           <div className="flex flex-col gap-1">
                             <label className="font-display text-label-xs uppercase tracking-wider text-primary">
+                              Author Role / Chair
+                            </label>
+                            <input
+                              className="w-full rounded-xs border border-primary/20 bg-cream/20 px-3 py-2 text-body-sm focus:border-gold focus:bg-white focus:outline-none"
+                              defaultValue={blog.author_title}
+                              name="author_title"
+                              type="text"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-1">
+                            <label className="font-display text-label-xs uppercase tracking-wider text-primary">
                               Reading Time
                             </label>
                             <input
@@ -578,16 +620,19 @@ export default function BlogManager({ initialBlogs }: BlogManagerProps) {
                           />
                         </div>
 
-                        <div className="flex flex-col gap-1">
-                          <label className="font-display text-label-xs uppercase tracking-wider text-primary">
-                            Editorial Content (Markdown) *
-                          </label>
-                          <textarea
-                            className="w-full rounded-xs border border-primary/20 bg-cream/20 px-3 py-2 font-mono text-body-sm focus:border-gold focus:bg-white focus:outline-none"
+                        <div className="flex flex-col gap-1.5">
+                          <div className="flex flex-wrap items-center justify-between gap-1">
+                            <label className="font-display text-label-xs uppercase tracking-wider text-primary">
+                              Editorial Content (Rich Formatting &amp; Markdown Paste Supported) *
+                            </label>
+                            <span className="font-mono text-[10px] text-secondary">
+                              Supports Headings, Bold, Italic, Underline, Serif/Display Fonts, Lists, Quotes, Callouts &amp; Tables
+                            </span>
+                          </div>
+                          <RichMarkdownEditor
                             defaultValue={blog.content}
                             name="content"
                             required
-                            rows={6}
                           />
                         </div>
 
