@@ -1,27 +1,26 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getYoutubeEmbedUrl } from "@/utils/youtube";
 import { ArrowForwardIcon, VerifiedIcon } from "../Icons";
 
 export type CourseOffering = {
   id: string;
   index: string;
-  code: string;
   title: string;
   subtitle: string;
   tags: string;
   body: string;
   extendedBody: string;
-  duration: string;
   format: string;
   syllabusHighlights: readonly string[];
-  imageSrc: string;
-  imageAlt: string;
-  caption: string;
-  frameClassName: string;
-  accentClassName: string;
-  imageClassName: string;
+  youtubeUrl: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  caption?: string;
+  frameClassName?: string;
+  accentClassName?: string;
+  imageClassName?: string;
 };
 
 const COHORT_TIERS = [
@@ -163,6 +162,7 @@ function CourseRow({
           }`}
         >
           {/* Index & Syllabus Code Bar */}
+          {/* Index & Video Classification Bar */}
           <div className="mb-space-md flex items-center justify-between border-b border-primary/10 pb-space-sm">
             <div className="flex items-center gap-space-sm">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary font-display text-label-xs font-bold text-cream">
@@ -172,9 +172,18 @@ function CourseRow({
                 {course.tags}
               </span>
             </div>
-            <span className="font-mono text-[11px] uppercase tracking-wider text-on-surface-variant">
-              {course.code}
-            </span>
+            <a
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-red-600 hover:text-red-800 transition-colors"
+              href={course.youtubeUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Open on YouTube"
+            >
+              <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+              <span>YouTube Video</span>
+            </a>
           </div>
 
           {/* Course Name & Subtitle */}
@@ -188,30 +197,38 @@ function CourseRow({
             {course.subtitle}
           </p>
 
-          {/* Editorial Plate */}
+          {/* YouTube Video Embed & Watch Link */}
           <div className="mt-space-xl">
-            <div className={`relative aspect-[16/10] w-full p-3 sm:p-4 ${course.frameClassName}`}>
-              <div
-                aria-hidden="true"
-                className={`absolute -z-10 hidden sm:block ${course.accentClassName}`}
+            <div className="relative aspect-video w-full overflow-hidden rounded-xs border border-primary/20 bg-primary shadow-lg ring-1 ring-primary/10">
+              <iframe
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="h-full w-full"
+                loading="lazy"
+                src={getYoutubeEmbedUrl(course.youtubeUrl)}
+                title={`${course.title} — Lecture & Curriculum Video`}
               />
-              <div className="relative h-full w-full overflow-hidden">
-                <Image
-                  alt={course.imageAlt}
-                  className={`object-cover object-center transition-transform duration-700 hover:scale-[1.02] ${course.imageClassName}`}
-                  fill
-                  sizes="(min-width: 1024px) 46vw, 100vw"
-                  src={course.imageSrc}
-                />
-              </div>
-              <div className="absolute bottom-5 left-5 right-5 z-20 flex flex-wrap items-center justify-between gap-2">
-                <p className="bg-cream/95 px-space-md py-1 font-display text-label-xs font-semibold uppercase tracking-widest text-primary shadow-xs backdrop-blur-xs">
-                  {course.caption}
-                </p>
-                <span className="bg-primary/90 px-space-sm py-1 font-mono text-[10px] uppercase tracking-widest text-gold backdrop-blur-xs">
-                  {course.duration}
-                </span>
-              </div>
+            </div>
+            <div className="mt-space-sm flex flex-wrap items-center justify-between gap-2 px-1">
+              <p className="font-display text-label-xs font-semibold uppercase tracking-widest text-on-surface-variant">
+                {course.caption || "Open Curriculum Lecture"}
+              </p>
+              <a
+                className="group inline-flex items-center gap-1.5 font-display text-label-xs font-bold uppercase tracking-wider text-red-700 hover:text-red-900 transition-colors"
+                href={course.youtubeUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 text-red-600 transition-transform group-hover:scale-110"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+                <span>Watch on YouTube ↗</span>
+              </a>
             </div>
           </div>
         </div>

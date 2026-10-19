@@ -15,7 +15,6 @@ const COURSES: readonly CourseOffering[] = [
   {
     id: "courses-and-learning-resources",
     index: "01",
-    code: "SYL // RIO-101",
     title: "Courses and Learning Resources",
     subtitle:
       "Autonomous digital modules paired with rigorous weekly faculty dialogues for enduring cognitive and somatic competency.",
@@ -23,7 +22,6 @@ const COURSES: readonly CourseOffering[] = [
     body: "Structured curricula combining autonomous digital modules with rigorous weekly faculty dialogues. From foundational neuroscience to advanced contemplative practice, participants cultivate verifiable internal competencies through sustained, evidence-based inquiry.",
     extendedBody:
       "Designed for universities, leadership fellowships, and dedicated learning cohorts, this curriculum bridges empirical cognitive science with structured contemplative praxis across a twelve-week semester.",
-    duration: "12-Week Cohort",
     format: "Digital Modules + Live Seminars",
     syllabusHighlights: [
       "Foundational Neuroscience & Metacognition",
@@ -31,6 +29,7 @@ const COURSES: readonly CourseOffering[] = [
       "Somatic Regulation & Autonomic Resilience",
       "Audited Competency & Cohort Certification",
     ],
+    youtubeUrl: "https://www.youtube.com/watch?v=inpok4MKVLM",
     imageSrc: "/images/offering-courses.jpg",
     imageAlt: "RIOSTAK immersive cohort in session",
     caption: "Curriculum // Autumn 2026",
@@ -41,7 +40,6 @@ const COURSES: readonly CourseOffering[] = [
   {
     id: "research-and-insights",
     index: "02",
-    code: "SYL // RIO-204",
     title: "Research & Insights",
     subtitle:
       "Multidisciplinary empirical inquiry, longitudinal flourishing indices, and validated diagnostic instruments.",
@@ -49,7 +47,6 @@ const COURSES: readonly CourseOffering[] = [
     body: "Our independent lab produces peer-reviewed working papers, longitudinal flourishing indices, and validated diagnostic tools. We collaborate globally with university departments to interrogate what conditions genuinely sustain human vitality across lifespan stages.",
     extendedBody:
       "Institutions and research departments can license our longitudinal measurement frameworks, commission collaborative field trials, or integrate our empirical methodology workshops into graduate seminars.",
-    duration: "Multi-Quarter / Custom",
     format: "Research Seminars & Field Kits",
     syllabusHighlights: [
       "Longitudinal Flourishing Index Licensing",
@@ -57,6 +54,7 @@ const COURSES: readonly CourseOffering[] = [
       "Collaborative University Field Trial Protocols",
       "Peer-Reviewed Working Paper Seminars",
     ],
+    youtubeUrl: "https://www.youtube.com/watch?v=O-6f5wQXSu8",
     imageSrc: "/images/offering-research.jpg",
     imageAlt: "RIOSTAK empirical white papers and monographs",
     caption: "Open Access // Monographs",
@@ -67,7 +65,6 @@ const COURSES: readonly CourseOffering[] = [
   {
     id: "educational-content-and-guidance",
     index: "03",
-    code: "SYL // RIO-309",
     title: "Educational Content & Guidance",
     subtitle:
       "Daily contemplative praxis, micro-learning field notes, and actionable clinical toolkits for organizations and communities.",
@@ -75,7 +72,6 @@ const COURSES: readonly CourseOffering[] = [
     body: "Accessible audio contemplation, daily field notes, and interactive toolkits formulated for immediate practical application. We demystify ancient wisdom and modern clinical practices into actionable, unpretentious five-minute daily practices.",
     extendedBody:
       "Ideal for community organizations, educators, and civic institutions seeking turnkey audio libraries, printed field manuals, and structured daily micro-learning tracks without multi-month scheduling overhead.",
-    duration: "Self-Paced / Modular",
     format: "Audio Library & Field Manuals",
     syllabusHighlights: [
       "Guided Five-Minute Somatic & Audio Praxis",
@@ -83,6 +79,7 @@ const COURSES: readonly CourseOffering[] = [
       "Relational Safety & Conflict Repair Toolkits",
       "Turnkey Institutional Library Integration",
     ],
+    youtubeUrl: "https://www.youtube.com/watch?v=w6T02g5hnT4",
     imageSrc: "/images/offering-guidance.jpg",
     imageAlt: "Everyday contemplative praxis in action",
     caption: "Digital Repository // Free Access",
