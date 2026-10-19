@@ -24,6 +24,10 @@ export default function BlogCatalogSection({ blogs }: BlogCatalogSectionProps) {
   const [readerFont, setReaderFont] = useState<ReaderFontMode>("serif");
   const [readerSize, setReaderSize] = useState<ReaderSizeMode>("md");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [scrollRequest, setScrollRequest] = useState<{
+    slug: string;
+    ts: number;
+  } | null>(null);
 
   const labels = ["All", ...Array.from(new Set(blogs.map((b) => b.label)))];
 
@@ -32,16 +36,17 @@ export default function BlogCatalogSection({ blogs }: BlogCatalogSectionProps) {
     return b.label === selectedLabel;
   });
 
-  // Auto-open monograph reading drawer if navigated via #monograph-<slug>
+  // Auto-open monograph reading drawer and scroll to section if navigated via #monograph-<slug>
   useEffect(() => {
     const syncFromHash = () => {
       const hash = window.location.hash;
       if (!hash.startsWith("#monograph-")) return;
-      const targetSlug = hash.replace("#monograph-", "");
+      const targetSlug = decodeURIComponent(hash.replace("#monograph-", ""));
       const matched = blogs.find((b) => b.slug === targetSlug);
       if (matched) {
         setSelectedLabel("All");
         setActiveReadingId(matched.id);
+        setScrollRequest({ slug: matched.slug, ts: Date.now() });
       }
     };
 
@@ -49,6 +54,20 @@ export default function BlogCatalogSection({ blogs }: BlogCatalogSectionProps) {
     window.addEventListener("hashchange", syncFromHash);
     return () => window.removeEventListener("hashchange", syncFromHash);
   }, [blogs]);
+
+  // Scroll to the active monograph article once its drawer is open in the DOM
+  useEffect(() => {
+    if (!scrollRequest) return;
+
+    const frameId = window.requestAnimationFrame(() => {
+      const targetEl = document.getElementById(`monograph-${scrollRequest.slug}`);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [scrollRequest, activeReadingId, selectedLabel]);
 
   useEffect(() => {
     if (!activeReadingId) return;
@@ -117,7 +136,7 @@ export default function BlogCatalogSection({ blogs }: BlogCatalogSectionProps) {
           return (
             <article
               key={blog.id}
-              className="py-space-xl transition-colors hover:bg-cream/20"
+              className="scroll-mt-24 py-space-xl transition-colors hover:bg-cream/20"
               id={`monograph-${blog.slug}`}
             >
               <div className="grid grid-cols-1 items-start gap-gutter-desktop lg:grid-cols-12 xl:gap-16">
@@ -198,9 +217,13 @@ export default function BlogCatalogSection({ blogs }: BlogCatalogSectionProps) {
                           ? "bg-secondary text-on-secondary hover:bg-primary hover:text-cream"
                           : "bg-primary text-cream shadow-xs hover:bg-secondary hover:text-on-secondary"
                       }`}
-                      onClick={() =>
-                        setActiveReadingId((prev) => (prev === blog.id ? null : blog.id))
-                      }
+                      onClick={() => {
+                        const nextId = activeReadingId === blog.id ? null : blog.id;
+                        setActiveReadingId(nextId);
+                        if (nextId) {
+                          setScrollRequest({ slug: blog.slug, ts: Date.now() });
+                        }
+                      }}
                       type="button"
                     >
                       <span>{isReading ? "Close Reading Drawer" : "Read Full Monograph"}</span>
@@ -220,11 +243,11 @@ export default function BlogCatalogSection({ blogs }: BlogCatalogSectionProps) {
               {/* Expandable Inline Monograph Reader Drawer */}
               <div
                 aria-hidden={!isReading}
-                className={`grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={
                   isReading
-                    ? "mt-space-xl grid-rows-[1fr] opacity-100"
-                    : "pointer-events-none mt-0 grid-rows-[0fr] opacity-0"
-                }`}
+                    ? "mt-space-xl block opacity-100 transition-opacity duration-300"
+                    : "pointer-events-none hidden opacity-0"
+                }
                 id={drawerId}
               >
                 <div className="overflow-hidden">
