@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowForwardIcon } from "../Icons";
 
 const AUDIENCES = [
   {
@@ -79,14 +78,6 @@ export default function Audience() {
                 <p className="text-body-md text-on-surface-variant lg:col-span-5">
                   {audience.body}
                 </p>
-                <div className="flex items-center lg:col-span-2 lg:justify-end">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-on-primary transition-transform group-hover:scale-110 group-hover:bg-secondary group-hover:text-on-secondary"
-                  >
-                    <ArrowForwardIcon className="h-[18px] w-[18px]" />
-                  </span>
-                </div>
               </div>
             </Link>
           </li>
