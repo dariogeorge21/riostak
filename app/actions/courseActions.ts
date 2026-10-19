@@ -96,6 +96,7 @@ export async function createCourseAction(
 
   revalidatePath("/manage");
   revalidatePath("/courses");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -161,6 +162,7 @@ export async function updateCourseAction(
 
   revalidatePath("/manage");
   revalidatePath("/courses");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -184,6 +186,7 @@ export async function deleteCourseAction(id: string): Promise<{ success: boolean
 
   revalidatePath("/manage");
   revalidatePath("/courses");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -219,5 +222,6 @@ export async function toggleCourseStatusAction(
 
   revalidatePath("/manage");
   revalidatePath("/courses");
+  revalidatePath("/");
   return { success: true };
 }

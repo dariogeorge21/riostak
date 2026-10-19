@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ArrowDownwardIcon, ArrowForwardIcon } from "@/components/Icons";
 import CourseQuoteSection, {
   type CourseOffering,
 } from "@/components/courses/CourseQuoteSection";
+import { getCourses } from "@/app/actions/courseActions";
+import { courseItemToOffering } from "@/utils/courseTypes";
 
 export const metadata: Metadata = {
   title: "Courses — RIOSTAK | Curricula, Research & Educational Guidance",
@@ -11,7 +14,7 @@ export const metadata: Metadata = {
     "Explore RIOSTAK's core academic offerings: Courses and Learning Resources, Research & Insights, and Educational Content & Guidance, with open video lectures available to watch now.",
 };
 
-const COURSES: readonly CourseOffering[] = [
+const INITIAL_FALLBACK_COURSES: readonly CourseOffering[] = [
   {
     id: "courses-and-learning-resources",
     index: "01",
@@ -89,6 +92,26 @@ const COURSES: readonly CourseOffering[] = [
   },
 ];
 
+async function LiveCourseCatalog() {
+  const coursesData = await getCourses();
+  const publishedCourses = coursesData.filter((c) => c.status === "published");
+  const courses: readonly CourseOffering[] =
+    publishedCourses.length > 0
+      ? publishedCourses.map(courseItemToOffering)
+      : INITIAL_FALLBACK_COURSES;
+
+  return <CourseQuoteSection courses={courses} />;
+}
+
+function CourseCatalogSkeleton() {
+  return (
+    <div className="flex flex-col gap-space-2xl py-space-lg animate-pulse">
+      <div className="h-64 w-full rounded-xs bg-primary/5 border border-primary/10" />
+      <div className="h-64 w-full rounded-xs bg-primary/5 border border-primary/10" />
+    </div>
+  );
+}
+
 export default function CoursesPage() {
   return (
     <main className="flex min-h-screen w-full flex-col justify-between bg-cream pt-20 text-primary">
@@ -106,7 +129,7 @@ export default function CoursesPage() {
             </p>
           </div>
           <p className="font-display text-label-xs uppercase tracking-widest text-on-surface-variant">
-            {`0${COURSES.length} Core Offerings // 2026 Academic Cycle`}
+            {`0${INITIAL_FALLBACK_COURSES.length} Core Offerings // 2026 Academic Cycle`}
           </p>
         </div>
 
@@ -130,10 +153,10 @@ export default function CoursesPage() {
                 resilience, and contemplative wisdom into living institutional practice.&rdquo;
               </p>
               <p className="mt-space-md max-w-2xl text-body-lg text-on-surface-variant">
-                Every RIOSTAK offering can be licensed for university departments, educator
-                fellowships, or civic cohorts. Inspect the three core programs below and select{" "}
-                <strong className="font-medium text-primary">Request Quote</strong> on any course to
-                configure an inline tuition and syllabus proposal.
+                Every RIOSTAK offering is designed for university departments, educator
+                fellowships, and civic cohorts. Inspect the three core programs below and select{" "}
+                <strong className="font-medium text-primary">Watch Now</strong> on any course to
+                stream the lecture directly on YouTube.
               </p>
 
               <div className="mt-space-xl flex flex-wrap items-center gap-space-md">
@@ -141,7 +164,7 @@ export default function CoursesPage() {
                   className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-8 font-display text-label-md font-semibold uppercase tracking-wider text-cream shadow-sm transition-all duration-200 hover:bg-secondary hover:text-on-secondary active:scale-[0.98]"
                   href="#course-catalog"
                 >
-                  Inspect {COURSES.length} Courses
+                  Inspect {INITIAL_FALLBACK_COURSES.length} Courses
                 </a>
                 <Link
                   className="group inline-flex min-h-12 items-center gap-space-xs rounded-full border border-primary/20 px-6 font-display text-label-md font-semibold uppercase tracking-wider text-primary transition-all duration-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98]"
@@ -165,10 +188,10 @@ export default function CoursesPage() {
                   Program Index // At a Glance
                 </p>
                 <p className="mt-space-xs font-display text-headline-md uppercase text-primary">
-                  0{COURSES.length} Core Tracks
+                  0{INITIAL_FALLBACK_COURSES.length} Core Tracks
                 </p>
                 <ul className="mt-space-md flex flex-col divide-y divide-primary/10 border-y border-primary/10">
-                  {COURSES.map((course) => (
+                  {INITIAL_FALLBACK_COURSES.map((course) => (
                     <li key={course.id} className="py-space-sm">
                       <a
                         className="group flex items-center justify-between gap-space-sm text-body-sm font-medium text-primary transition-colors hover:text-secondary"
@@ -200,15 +223,15 @@ export default function CoursesPage() {
                 Active Programs
               </p>
               <p className="mt-1 font-display text-title-md font-bold text-primary">
-                0{COURSES.length} Core Offerings
+                0{INITIAL_FALLBACK_COURSES.length} Core Offerings
               </p>
             </div>
             <div>
               <p className="font-display text-label-xs uppercase tracking-wider text-on-surface-variant">
-                Quote Turnaround
+                Lecture Access
               </p>
               <p className="mt-1 font-display text-title-md font-bold text-primary">
-                &lt; 24 Business Hours
+                Open YouTube Stream
               </p>
             </div>
             <div>
@@ -230,7 +253,7 @@ export default function CoursesPage() {
           </div>
         </section>
 
-        {/* Course Catalog Section with Alternating Rows & Inline Quote Drawers */}
+        {/* Course Catalog Section with Alternating Rows & Direct Watch Now Links */}
         <section aria-labelledby="catalog-heading" className="pt-space-md" id="course-catalog">
           <div className="mb-space-lg flex flex-wrap items-end justify-between gap-space-sm border-b border-primary/15 pb-space-lg">
             <div>
@@ -240,20 +263,22 @@ export default function CoursesPage() {
                   className="font-display text-label-md uppercase tracking-[0.18em] text-primary"
                   id="catalog-heading"
                 >
-                  01 // Course Directory ({COURSES.length} Programs)
+                  01 // Course Directory
                 </h2>
               </div>
               <p className="mt-1 text-body-sm text-on-surface-variant">
-                Alternating syllabus specifications with dedicated inline quote configuration per
+                Alternating syllabus specifications with direct YouTube lecture access per
                 course.
               </p>
             </div>
             <p className="font-display text-label-xs uppercase tracking-widest text-secondary">
-              {"// Click 'Request Quote' To Expand Inline Form"}
+              {"// Select 'Watch Now' To Stream On YouTube"}
             </p>
           </div>
 
-          <CourseQuoteSection courses={COURSES} />
+          <Suspense fallback={<CourseCatalogSkeleton />}>
+            <LiveCourseCatalog />
+          </Suspense>
         </section>
       </div>
 

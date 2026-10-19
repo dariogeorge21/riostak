@@ -21,6 +21,46 @@ export type CourseItem = {
   created_at: string;
 };
 
+export type CourseOfferingAdapter = {
+  id: string;
+  index: string;
+  title: string;
+  subtitle: string;
+  tags: string;
+  body: string;
+  extendedBody: string;
+  format: string;
+  syllabusHighlights: readonly string[];
+  youtubeUrl: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  caption?: string;
+  frameClassName?: string;
+  accentClassName?: string;
+  imageClassName?: string;
+};
+
+export function courseItemToOffering(item: CourseItem): CourseOfferingAdapter {
+  return {
+    id: item.slug || item.id,
+    index: item.index_code,
+    title: item.title,
+    subtitle: item.subtitle,
+    tags: item.tags,
+    body: item.body,
+    extendedBody: item.extended_body,
+    format: item.format,
+    syllabusHighlights: item.syllabus_highlights,
+    youtubeUrl: item.youtube_url,
+    imageSrc: item.image_src,
+    imageAlt: item.image_alt,
+    caption: item.caption,
+    frameClassName: item.frame_class_name || "bg-primary-container",
+    accentClassName: item.accent_class_name || "-bottom-3 -right-3 h-2/3 w-2/3 bg-secondary-container",
+    imageClassName: item.image_class_name || "",
+  };
+}
+
 export const INITIAL_SEED_COURSES: readonly CourseItem[] = [
   {
     id: "course-01",
